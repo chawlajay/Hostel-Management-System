@@ -15,28 +15,27 @@
 
 		$students=mysqli_fetch_all($result1,MYSQLI_ASSOC);
 		$hostels=mysqli_fetch_all($result2,MYSQLI_ASSOC);
-if(!empty($students))
-{
-		foreach($hostels as $hostel)
+		if(!empty($students))
 		{
-			if(isset($_POST[$hostel['hostel_id']]))
-			{
-				foreach($students as $student)
+				foreach($hostels as $hostel)
 				{
-					if($student['hostel_id']==$hostel['hostel_id'])
+					if(isset($_POST[$hostel['hostel_id']]))
 					{
-						$to_push=array("name"=>$student['first_name'].' '.$student['last_name'],"hostel_name"=>$hostel['hostel_name'],"email"=>$student['email'],"mobile"=>$student['mobile'],"college_id"=>$student['college_id'],
-							"dob"=>$student['date_of_birth']);
+						foreach($students as $student)
+						{
+							if($student['hostel_id']==$hostel['hostel_id'])
+							{
+								$to_push=array("name"=>$student['first_name'].' '.$student['last_name'],"hostel_name"=>$hostel['hostel_name'],"email"=>$student['email'],"mobile"=>$student['mobile'],"dob"=>$student['date_of_birth']);
 
-						$display[]=$to_push;
+								$display[]=$to_push;
+							}
+						}
+						break;
 					}
 				}
-				break;
-			}
 		}
-}
 else
-$display[]=array("name"=>'None',"hostel_name"=>'None',"email"=>'None',"mobile"=>'None',"college_id"=>'None',"dob"=>'None');
+$display[]=array("name"=>'None',"hostel_name"=>'None',"email"=>'None',"mobile"=>'None',"dob"=>'None');
 	}
 
 	mysqli_close($conn);
@@ -47,19 +46,13 @@ $display[]=array("name"=>'None',"hostel_name"=>'None',"email"=>'None',"mobile"=>
 
     <?php include('templates/header.php'); ?>
 
-	<div style="text-align: center;">
+	<h3 class="center grey-text">Students</h3>
 
-		<h3>
-			<u>Student Details</u>
-		</h3>
-
-	</div>
-
-	<form action="students.php" method="post">
+	<form action="students.php" class="center" method="post">
 
 		<?php foreach($hostels as $hostel){ ?>
 
-			<div style=" margin-bottom:10px; padding-bottom:10px;" class="waves-effect waves-light btn-small brand-text">
+			<div class="waves-effect btn brand">
 			<h6>
 				<input type="submit" value="<?php echo htmlspecialchars($hostel['hostel_name']); ?>" 
 				name="<?php echo htmlspecialchars($hostel['hostel_id']); ?>"> 
@@ -73,24 +66,22 @@ $display[]=array("name"=>'None',"hostel_name"=>'None',"email"=>'None',"mobile"=>
 	<div style="text-align: center;">
 
 		<?php if(count($display)>0){ ?>
-			<table>
-				<tr rowspan=2>
-					<td><b>CollegeId</b></td>
-					<td><b>Name</b></td>
-					<td><b>Email</b></td>
-					<td><b>Phone</b></td>
-					<td><b>Date Of Birth</b></td>
+			<table class="tabstu">
+				<tr rowspan=2 class="tabstu">
+					<td class="tabstu"><b>Name</b></td>
+					<td class="tabstu"><b>Email</b></td>
+					<td class="tabstu"><b>Phone</b></td>
+					<td class="tabstu"><b>Date Of Birth</b></td>
 				</tr>
 
 
 				<?php foreach($display as $student) {?>
 
-						<tr>
-							<td><?php echo $student['college_id']; ?></td>
-							<td><?php echo $student['name']; ?></td>
-							<td><?php echo $student['email']; ?></td>
-							<td><?php echo $student['mobile']; ?></td>
-							<td><?php echo $student['dob']; ?></td>
+						<tr class="tabstu">
+							<td class="tabstu"><?php echo $student['name']; ?></td>
+							<td class="tabstu"><?php echo $student['email']; ?></td>
+							<td class="tabstu"><?php echo $student['mobile']; ?></td>
+							<td class="tabstu"><?php echo $student['dob']; ?></td>
 						</tr>
 
 				<?php } ?>

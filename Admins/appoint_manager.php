@@ -150,7 +150,7 @@
 	<?php include('templates/header.php'); ?>
 
 	<section class="container grey-text">	
-	<h4 class="center blue-text">Appoint Hostel Manager</h4>
+	<h4 class="center heading-text">Appoint Hostel Manager</h4>
 	<form class="white" action="appoint_manager.php" method="POST">
 
 	<label>First Name : </label>

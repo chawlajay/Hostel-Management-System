@@ -47,7 +47,7 @@
 
 <section class="container grey-text">	
 
-	<h4 class="center blue-text">Manager/Admin Login</h4>
+	<h4 class="center heading-text">Manager/Admin Login</h4>
    
     <form class="white" action="manager-adminLogin.php" method="POST">
 
@@ -74,6 +74,12 @@
   
 
   </section>
+
+  <center>
+    
+    <a href="http://localhost/HMS/forgot_psw.php"><u>Forgot Password</u></a>
+
+  </center>
 
 <?php include('templates/footer.php'); ?>
 

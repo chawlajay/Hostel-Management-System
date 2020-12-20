@@ -9,7 +9,7 @@
 	$user_check=$_SESSION['username'];
 	//echo ($user_check);
 	// SQL Query To Fetch Complete Information Of User
-	$sql = "SELECT * FROM students WHERE college_id='$user_check'";
+	$sql = "SELECT * FROM students WHERE email='$user_check'";
 	$result = mysqli_query($conn,$sql);
 	$student = mysqli_fetch_assoc($result);
 	$name = $student['first_name'];
@@ -17,5 +17,5 @@
 		//echo 'not set';
 		mysqli_close($conn); // Closing Connection
 		header('Location: index.php'); // Redirecting To Home Page
-	}
+	}	
 ?>

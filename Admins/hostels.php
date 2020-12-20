@@ -7,7 +7,7 @@
 	{
 	    $id_to_delete=mysqli_real_escape_string($conn,$_POST['id_to_delete']);
 	    // sql query to delete particular manager record with $id_to_delete ID
-	    $sql="DELETE FROM managers WHERE hostel_id=$id_to_delete"; 
+	    $sql="DELETE FROM managers WHERE hostel_id='$id_to_delete'"; 
 	    
 	     if(mysqli_query($conn,$sql))
 	     {

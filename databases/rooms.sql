@@ -25,44 +25,53 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hostels`
+-- Table structure for table `rooms`
 --
 
-CREATE TABLE `hostels` (
+CREATE TABLE `rooms` (
+  `room_id` int(11) NOT NULL,
   `hostel_id` int(11) NOT NULL,
-  `hostel_name` varchar(255) NOT NULL,
-  `no_of_rooms` int(11) NOT NULL,
-  `no_of_students` int(11) NOT NULL
+  `isVacant` tinyint(1) DEFAULT NULL,
+  `isApplied` tinyint(1) DEFAULT NULL,
+  `isOccupied` tinyint(1) DEFAULT NULL,
+  `student_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `hostels`
+-- Dumping data for table `rooms`
 --
 
-INSERT INTO `hostels` (`hostel_id`, `hostel_name`, `no_of_rooms`, `no_of_students`) VALUES
-(1, 'HOSTEL1', 3, 1),
-(2, 'HOSTEL2', 3, 1),
-(3, 'HOSTEL3', 3, 1);
+INSERT INTO `rooms` (`room_id`, `hostel_id`, `isVacant`, `isApplied`, `isOccupied`, `student_id`) VALUES
+(1, 1, 0, 0, 1, 170),
+(1, 2, 0, 0, 1, 172),
+(1, 3, 0, 0, 1, 173),
+(2, 1, 1, 0, 0, NULL),
+(2, 2, 1, 0, 0, NULL),
+(2, 3, 1, 0, 0, NULL),
+(3, 1, 1, 0, 0, NULL),
+(3, 2, 1, 0, 0, NULL),
+(3, 3, 1, 0, 0, NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `hostels`
+-- Indexes for table `rooms`
 --
-ALTER TABLE `hostels`
-  ADD PRIMARY KEY (`hostel_id`);
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`room_id`,`hostel_id`),
+  ADD KEY `student_id` (`student_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Constraints for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `hostels`
+-- Constraints for table `rooms`
 --
-ALTER TABLE `hostels`
-  MODIFY `hostel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

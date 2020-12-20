@@ -1,71 +1,18 @@
-<?php 
-	session_start();
-
-	require 'config/db_connect.php';
-
-	$error='';
-	if(isset($_POST['login']))
-	{
-	  $rno=$_POST['RollNumber'];
-	  $psw=$_POST['password'];
-
-	  if($conn)
-	  {
-	    $sql="SELECT * FROM students WHERE college_id='$rno' AND password='$psw'";
-
-	    $result=mysqli_query($conn,$sql);
-	    if(mysqli_num_rows($result)>0)
-	    {
-		  $_SESSION['username'] = $rno;
-		  $current_user=mysqli_fetch_assoc($result);
-		  // cookie is here
-		  setcookie("user_email",$current_user['email'],time()+60*60*24,'/');
-	      header("location: students/profile.php");
-	    }
-	    else
-	    {
-	      $error="*Incorrect username or password";
-	    }
-	  }
-	  mysqli_close($conn);
-	}
+<?php
+	require 'session.php';
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<?php include('templates/header.php'); ?>
-<section class="container grey-text">	
-	<h4 class="center blue-text">Student Login</h4>
- 
-    <form class="white" action="index.php" method="POST">
+	<?php include('templates/header.php'); ?>
 
-        <label><h5>Roll Number : </h5></label>
-  	    <input type="text" name="RollNumber" >
+	<h4 class="center grey-text">About Us</h4>
 
-        <label><h5>Password :</h5></label>
-        <input type="password" name="password">
-        <div class="red-text"><?php echo $error; ?></div>
-      
+	<center><img src="../assets/hostel.jpg" style="height: 350px;width: 750px"></center>
 
-      <div class="left">
-        <input type="submit" class="btn brand z-depth-0" name="login" value="Login">
-      </div>
-<br><br>
-      <h6>
-      <span style="margin-left:120px;"> Don't have an account yet?
-      <a href="http://localhost/HMS-ST/student_signup.php" class="btn brand z-depth-0">Signup</a>
-      </span>
-    </h6>
-    </form>
+	<p style="margin-left: 50px;margin-right: 50px">A hostel is a form of low-cost, short-term shared sociable lodging where guests can rent a bed, usually a bunk bed in a dormitory, with shared use of a lounge and sometimes a kitchen. Rooms can be mixed or single-sex and have private or shared bathrooms. Private rooms may also be available, but the property must offer dormitories to be considered a hostel.Hostels are popular forms of lodging for backpackers, cycle tourists, and gap year travelers. They are part of the sharing economy.Benefits of hostels include lower costs and opportunities to meet people from all over the world, find travel partners, and share travel ideas.</p>
 
-    
+	<p style="margin-left: 50px;margin-right: 50px">We have 3 hostels in the city.We let college students stay in our hostels at a reasonable price.On this Web Application "Hostel Management System - HMS",Students can Apply for a hostel room, see status of the application and lets a student contact managers of our hostel and edit their profile.Managers can easily access applications of students and accept/reject it and also manager can vacant rooms by removing students and also contact to the hostel administation and edit their profile.</p>
 
-  </section>
-
-   
-  <h5 style="text-align: center;">
-  Not a student? Click <a href="http://localhost/HMS-ST/manager-adminLogin.php" class="blue-text text-darken-2 z-depth-0">HERE</a> to login 
-  </h5>
-
-  <?php include('templates/footer.php'); ?>
+	<?php include('templates/footer.php'); ?>
 </html>

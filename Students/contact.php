@@ -25,8 +25,8 @@
 							<h5><?php echo htmlspecialchars($manager['first_name']);echo(" ");echo htmlspecialchars($manager['last_name'])?></h5>
 							<h6><?php echo htmlspecialchars($manager['mobile'])?></h6>
 							<form action="send_mail.php" method="POST" >
-							<input type="hidden" name="receiver_email" value="<?php echo htmlspecialchars($manager['email'])?>">
-							<button id="manager_email"><h6><?php echo htmlspecialchars($manager['email'])?></h6></button>
+								<input type="hidden" name="receiver_email" value="<?php echo htmlspecialchars($manager['email'])?>">
+								<button id="manager_email"><h6><?php echo htmlspecialchars($manager['email'])?></h6></button>
 							</form>
 							<h6><?php echo htmlspecialchars($manager['hostel_name'])?></h6>
 						</div>
@@ -35,8 +35,6 @@
 			<?php endforeach; ?>
 		</div>
 	</div>
-
-
 
 	<?php include('templates/footer.php'); ?>
 </html>

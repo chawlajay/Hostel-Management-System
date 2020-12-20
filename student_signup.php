@@ -3,19 +3,18 @@
 
 	require 'config/db_connect.php';
 
-	$errors=array('fname'=>'','lname'=>'','RollNumber'=>'','id_card'=>'','password'=>'','cpassword'=>'','email'=>'','phone'=>'','dob'=>'');
+	$errors=array('id_card'=>'','fname'=>'','lname'=>'','password'=>'','cpassword'=>'','email'=>'','phone'=>'','dob'=>'');
 
 	if(isset($_POST['signup']))
 	{
 		$fname=$_POST['fname'];
 		$lname=$_POST['lname'];
-		$rnumber=$_POST['RollNumber'];
-		// $id_card=$_POST['id_card'];
 		$dob=$_POST['DOB'];
 		$email=$_POST["email"];
 		$phone=$_POST["phone"];
 		$password=$_POST['password'];
 		$cpassword=$_POST['cpassword'];
+
 
 		$valid=true;
 
@@ -59,50 +58,17 @@
 			}
 		}
 
-		//Validate rollnumber//college_id
-
-		if(strlen($rnumber)==0)
-		{
-			$valid=false;
-			$errors['RollNumber']="*Roll Number can't be empty";
-		}
-		else
-		{
-			/*if(strlen($rnumber)!=8 or $rnumber[0]!='U' or !ctype_digit($rnumber[1]) or !ctype_digit($rnumber[2]) or !ctype_upper($rnumber[3]) or !ctype_upper($rnumber[4]) or !ctype_digit($rnumber[5]) or !ctype_digit($rnumber[6]) or !ctype_digit($rnumber[7]))*/
-			if(strlen($rnumber)<6)
-			{
-				$errors['RollNumber']='*Enter a valid roll number';
-				$valid=false;
-			}
-		}
-
-		//Validate Student ID card
-
-		// name of file with random number so two files do not get same name
-		// $file_name=rand(1000,10000)."-".$_FILES['id_card']['name'];
-		// // temporary file name to store file
-		// $temp_file_name=$_FILES['id_card']['tmp_name'];
-		// // upload directory path 
-		// $upload_dir='./id_cards';
-		// // to move the uploaded file to specific location
-		// move_uploaded_file($temp_file_name,$upload_dir.'/'.$file_name);
-
 		$temp_file_name=addslashes($_FILES['id_card']['tmp_name']);
 		$file_name=addslashes($_FILES['id_card']['name']);
 		$image=file_get_contents($temp_file_name);
 		$image=base64_encode($image);
-		//$valid=false;
-		
+
 		//Validate Email
 
-		if(strlen($email)==0)
-		{
-			$errors['email']="*Email can't be empty";
-			$valid=false;
-		}
-		else if(!filter_var($email,FILTER_VALIDATE_EMAIL)) 
-		{
-			$errors["email"]="*Invalid email format";
+		$sql1="SELECT * FROM students WHERE email='$email'";
+		$sql2="SELECT * FROM managers WHERE email='$email'";
+		if(mysqli_num_rows(mysqli_query($conn,$sql1))>0|| mysqli_num_rows(mysqli_query($conn,$sql2))>0){
+			$errors['email']='*An account with this email id already exists';
 			$valid=false;
 		}
 
@@ -155,12 +121,14 @@
 
 			if($conn)
 			{
-				$sql="INSERT INTO students(first_name,last_name,date_of_birth,mobile,email,college_id,id_card,password) 
-				VALUES('$fname','$lname','$dob','$phone','$email','$rnumber','$image','$password')";
+				$sql="INSERT INTO students
+				(first_name,last_name,date_of_birth,mobile,email,password,id_card) 
+				VALUES
+				('$fname','$lname','$dob','$phone','$email','$password','$image')";
 				if(mysqli_query($conn,$sql)) 
 				{
-					echo 'Account Successfully Created';
-					$_SESSION['username'] = $rnumber;
+					$_SESSION['username'] = $email;
+					$_SESSION['status']='Not Hostelite And Not Yet Applied';
 					setcookie("user_email",$email,time()+60*60*24,'/');
 					header("location: Students/profile.php");
 				} 
@@ -176,8 +144,8 @@
 <?php include('templates/header.php'); ?>
 
 	<section class="container grey-text">	
-	<h4 class="center blue-text">Student SignUp Page</h4>
-	<form class="white" action="student_signup.php" method="post"  enctype="multipart/form-data">
+	<h4 class="center heading-text">Student SignUp Page</h4>
+	<form class="white" action="student_signup.php" method="post" enctype="multipart/form-data">
     
         <label><h5>First Name: </h5></label>
         <input type="text" name="fname" value="<?php echo isset($_POST["fname"]) ? $_POST["fname"] : ''; ?>">
@@ -187,11 +155,7 @@
         <input type="text" name="lname" value="<?php echo isset($_POST["lname"]) ? $_POST["lname"] : ''; ?>">
         <div class="red-text"><?php echo $errors['lname']; ?></div>
 
-        <label><h5>College Id: </h5></label>
-        <input type="text" name="RollNumber" value="<?php echo isset($_POST["RollNumber"]) ? $_POST["RollNumber"] : ''; ?>"> 
-        <div class="red-text"><?php echo $errors['RollNumber']; ?></div>
-
-		<label><h5>ID Card: </h5></label>
+        <label><h5>ID Card: </h5></label>
         <input type="file" name="id_card" required> 
         <div class="red-text"><?php echo $errors['id_card']; ?></div><br>
 

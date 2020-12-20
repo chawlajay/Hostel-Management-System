@@ -2,14 +2,14 @@
 	require 'session.php';
 
 	$hid = $manager['hostel_id'];
+
 	$sql1 = "SELECT * FROM students WHERE hostel_id = '$hid'";
 	$result1 = mysqli_query($conn,$sql1);
 	$students = mysqli_fetch_all($result1,MYSQLI_ASSOC);
 
-	$sql2 = "SELECT * FROM hostels WHERE hostels.hostel_id = '$hid'";
+	$sql2 = "SELECT * FROM hostels WHERE hostel_id = '$hid'";
 	$result2 = mysqli_query($conn,$sql2);
 	$hostel = mysqli_fetch_assoc($result2);
-	//print_r($hostel);
 
 	if($conn)
 	{
@@ -19,18 +19,19 @@
 			$c = 0;
 			foreach($students as $student)
 			{
-				if(isset($_POST[$student['college_id']]))
+				if(isset($_POST[$student['student_id']]))
 				{
 					$c++;
 
-					$id_to_delete=$student['college_id'];
-					$sql_to_delete = " DELETE FROM students WHERE college_id='$id_to_delete' ";
+					$id_to_delete=$student['email'];
+					$sid=$student['student_id'];
+					$sql="UPDATE rooms SET student_id=NULL,isVacant=1,isApplied=0,isOccupied=0 WHERE student_id='$sid'";
+					$res=mysqli_query($conn,$sql);
+					$sql_to_delete = "UPDATE students SET hostel_id=NULL WHERE email='$id_to_delete' ";
 					$result4 = mysqli_query($conn,$sql_to_delete);
 				}
 			}
-			$number = $hostel['no_of_students'];
-			$number = $number - $c;
-			$sql3 = "UPDATE hostels SET no_of_students = '$number' WHERE hostels.hostel_id = '$hid'";
+			$sql3 = "UPDATE hostels SET no_of_students = no_of_students-'$c' WHERE hostel_id = '$hid'";
 			$result3 = mysqli_query($conn,$sql3);
 		}
 		$hid = $manager['hostel_id'];
@@ -64,11 +65,11 @@
 		<form action="students.php" method="post">
 				<?php foreach($students as $student): ?>
 					<p>
-						<label for="<?php echo $student['college_id'];?>">
+						<label for="<?php echo $student['student_id'];?>">
 							<tr>
-								<td><input type="checkbox" id="<?php echo $student['college_id'];?>" name="<?php echo $student['college_id'];?>"></td>
+								<td><input type="checkbox" id="<?php echo $student['student_id'];?>" name="<?php echo $student['student_id'];?>"></td>
 								<td><span><?php echo $student['first_name'].'	'.$student['last_name'] ?></span></td>
-								<td><span><?php echo '('.$student['college_id'].')'.'['.$student['mobile'].']'?></span></td>
+								<td><span><?php echo '('.$student['email'].')'.'['.$student['mobile'].']'?></span></td>
 							</tr>
 						</label>
 					</p>

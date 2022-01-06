@@ -41,4 +41,4 @@ The list of [contributors](https://github.com/djsavaliya/hostel-management/graph
 ## Acknowledgments
 
 * Thanks to [Net Ninja PHP Tutorial](https://www.youtube.com/watch?v=pWG7ajC_OVo&list=PL4cUxeGkcC9gksOX3Kd9KPo-O68ncT05o) - YouTube
-* Thanks to [Me](https://github.com/chawlajay) for pushing me forward and getting out of Comfort Zone, also thanks to [Darshil](https://github.com/djsavaliya) and [Dhruv](https://github.com/Dhruv-Rana) to contibute, to motivate and to hustle for this project.Everyone is equally responsible for making this project successfull.
+* Thanks to [Me](https://github.com/chawlajay) for pushing me forward and getting out of Comfort Zone, also thanks to [Darshil](https://github.com/djsavaliya) and [Dhruv](https://github.com/Dhruv-Rana) to contibute, to motivate and to hustle for this project.Everyone is equally responsible for making this project successful.
